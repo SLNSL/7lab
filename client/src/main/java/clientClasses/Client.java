@@ -66,6 +66,7 @@ public class Client {
         clientAuthorization.setLanguage(clientReceiver, clientSender, printer);
 
         this.messenger = clientAuthorization.getMessenger();
+        clientReceiver.setMessenger(messenger);
 
         if (messenger != null) {
 

@@ -95,5 +95,7 @@ public class ClientReceiver extends AbstractClientReceiver {
         return null;
     }
 
-
+    public void setMessenger(Messenger messenger) {
+        this.messenger = messenger;
+    }
 }
