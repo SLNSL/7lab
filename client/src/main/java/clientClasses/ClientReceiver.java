@@ -72,9 +72,12 @@ public class ClientReceiver extends AbstractClientReceiver {
 
                 if (answer.hasError()) {
                     if (answer.getErrorType() != 2) printer.println(answer.getError());
-                    if (answer.getErrorType() == 2) printer.println(answer.getError());
+                    if (answer.getErrorType() == 2) {
+                        printer.println(answer.getError());
+                        Thread.currentThread().interrupt();
+                    }
                 } else {
-                    if (!(answer.getResult() instanceof Messenger)) printer.println(answer.getResult());
+                    if ((answer.getResult() instanceof String)) printer.println(answer.getResult());
                 }
 
             }

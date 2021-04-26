@@ -29,6 +29,7 @@ public class ExitCommandServ implements Command {
     public Result<String> execute(int port, String login, Object... args) {
 
         Command saveCommand = new SaveCommandServ(collectionManager);
+        saveCommand.setMessenger(messenger);
         Result<String> result = saveCommand.execute(0, login, messenger, 0);
         if (result.hasError()) {
             logger.error(result.getError());

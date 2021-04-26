@@ -86,7 +86,6 @@ public class CommandInterpreter extends AbstractInterpreter {
                 Result<String> executeResult = command.execute(datagramPacket.getPort(), login, args);
 
                 if (executeResult.hasError() && !stringCommand.equals("sign_in") && !stringCommand.equals("sign_out")) {
-                    System.out.println(1);
                     answer = new AnswerPacket(executeResult.getError(), 2);
                     sendAnswer(answer);
                 } else {

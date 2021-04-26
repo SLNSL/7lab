@@ -15,7 +15,6 @@ public class MessengerRu extends AbstractMessenger {
         commandsInfo.put("update id", "обновить значение элемента коллекции, id которого равен заданному");
         commandsInfo.put("remove_key null", "удалить элемент из коллекции по его ключу");
         commandsInfo.put("clear", "очистить коллекцию");
-        commandsInfo.put("save", "сохранить коллекцию в файл");
         commandsInfo.put("execute_script file_name", " считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.");
         commandsInfo.put("exit", "завершить программу (без сохранения в файл)");
         commandsInfo.put("remove_lower", "удалить из коллекции все элементы, меньшие, чем заданный");

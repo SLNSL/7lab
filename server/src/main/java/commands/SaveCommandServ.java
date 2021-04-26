@@ -29,7 +29,6 @@ public class SaveCommandServ implements Command {
      */
     @Override
     public Result<String> execute(int port, String login, Object... argument) throws IncorrectNumberOfArgumentsException {
-        if (login.equals("guest")) return new FieldResult<>(messenger.youDontHaveRights());
         collectionManager.setMessenger(messenger);
         collectionManager.sort();
         try {

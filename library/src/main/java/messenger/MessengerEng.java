@@ -19,7 +19,6 @@ public class MessengerEng extends AbstractMessenger {
         commandsInfo.put("update id", "update the value of a collection element whose id is equal to the specified one");
         commandsInfo.put("remove_key null", "delete an item from the collection by its key");
         commandsInfo.put("clear", "clear the collection");
-        commandsInfo.put("save", "save the collection to a file");
         commandsInfo.put("execute_script file_name",
                 "read and execute the script from the specified file. The script contains commands in the same form as the user enters them interactively.");
         commandsInfo.put("exit", "end the program (without saving it to a file)");
