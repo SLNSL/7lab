@@ -450,6 +450,7 @@ public class FieldInfoFrame extends JFrame {
             Packet packet = new CommandPacket("remove_key", mainFrame.getTable().getModel().getValueAt(row, 0));
             packet.setUser(client.getLogin(), client.getMessenger());
             client.getClientSender().send(packet);
+            frame.dispose();
         }
     }
 }

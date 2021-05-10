@@ -42,27 +42,6 @@ public class ClientCommandExecutor implements CommandExecutor {
         this.scanner = scanner;
     }
 
-//    public void run() {
-//        Packet packet;
-//        do {
-//            String fullCommand = " ";
-//            while (fullCommand.equals(" ")) {
-//                fullCommand = scanner.nextLine().trim() + " ";
-//            }
-//            String[] command = fullCommand.split(" ", 2);
-//
-//            packet = clientCommandInterpreter.getCommand(command[0]).make(command[1]);
-//            if (packet.hasError()) {
-//                printer.printlnError(packet.getError());
-//            }
-//
-//        } while (packet.hasError());
-//
-//
-//        clientSender.send(packet);
-////
-//
-//    }
 
     @Override
     public void runCommand(String login, Messenger messenger, String[] command) {

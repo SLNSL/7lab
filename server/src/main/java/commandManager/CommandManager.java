@@ -45,15 +45,6 @@ public class CommandManager implements Manager{
     public CommandManager() {
     }
 
-//    public CommandManager(ServerReceiverInterface serverReceiver, DataBase dataBase) {
-//        this.serverReceiver = serverReceiver;
-//        setLanguage = new LanguageCommandServ();
-//        mapOfCommands.put("setLanguage", this.setLanguage);
-//        signUp = new SignUpCommandServ(dataBase, serverReceiver);
-//        mapOfCommands.put("sign_up", this.signUp);
-//        signIn = new SignInCommandServ(dataBase, serverReceiver);
-//        mapOfCommands.put("sign_in", this.signIn);
-//    }
 
     public CommandManager(ServerReceiverInterface serverReceiver,  DataBase dataBase, Collection collectionManager, ServerDataChecker fieldsChecker) {
         this.serverReceiver = serverReceiver;

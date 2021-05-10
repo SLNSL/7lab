@@ -28,7 +28,6 @@ public class CollectionCreator implements Creator {
 
 
         if (products.size() == 0) {
-//            serverSender.send(new AnswerPacket(sendMessage), inetAddress, port);
             return result;
         }
 
@@ -37,8 +36,6 @@ public class CollectionCreator implements Creator {
         Result<Map<Integer, Product>> collectionResult = LoadedChecker.checkCollection(result, fieldsChecker, dataBase);
         result = collectionResult.getResult();
 
-
-//        serverSender.send(new AnswerPacket(sendMessage), inetAddress, port);
 
         return result;
     }

@@ -98,33 +98,6 @@ public class ClientReceiver extends AbstractClientReceiver {
                 }
             }
 
-
-//            if (answer.getAnswerType().equals(AnswerType.AUTHORIZATION)) {
-//                if (!answer.hasError()) {
-//                    String[] answerMessage = answer.getResult().toString().split(" ", 3);
-//                    client.setLogin(answerMessage[1]);
-//                    JOptionPane.showMessageDialog(null, answerMessage[0] + " " + answerMessage[1] + "!", "", JOptionPane.PLAIN_MESSAGE);
-//                } else {
-//                    JOptionPane.showMessageDialog(null, answer.getError(), "", JOptionPane.INFORMATION_MESSAGE);
-//                }
-//
-//            } else {
-//
-//                if (answer.hasError()) {
-//                    if (answer.getErrorType() != 2) {
-//                        JOptionPane.showMessageDialog(null, answer.getError(), "", JOptionPane.INFORMATION_MESSAGE);
-//                    }
-//                    if (answer.getErrorType() == 2) {
-//                        JOptionPane.showMessageDialog(null, answer.getError(), "", JOptionPane.INFORMATION_MESSAGE);
-//                        System.exit(0);
-//                    }
-//                } else {
-//                    if (answer.getResult() instanceof String) {
-//                        printer.println(answer.getResult().toString());
-//                    }
-//                }
-//
-//            }
             byteArrayInputStream.close();
             objectInputStream.close();
 

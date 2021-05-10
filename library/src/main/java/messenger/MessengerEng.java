@@ -321,10 +321,7 @@ public class MessengerEng extends AbstractMessenger {
     }
 
 
-//    @Override
-//    public String getProductInfo(Product product, CollectionManager collectionManager) throws IncorrectInputException {
-//        return super.getProductInfo(product, collectionManager);
-//    }
+
 
     @Override
     public String getString() {

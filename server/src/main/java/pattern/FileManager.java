@@ -31,22 +31,6 @@ public class FileManager implements Loader {
         products = dataBase.getData();
         return products;
 
-
-//
-//        String thisLine;
-//        StringBuilder result = new StringBuilder();
-//        try {
-//            BufferedReader reader = new BufferedReader(new FileReader(file));
-//            thisLine = reader.readLine();
-//            while (thisLine != null) {
-//                result.append(thisLine);
-//                thisLine = reader.readLine();
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//        return result;
     }
 
     /**
@@ -58,12 +42,6 @@ public class FileManager implements Loader {
     public void save(Map<Integer, Product> collection) throws InputOutputException {
         dataBase.addData(collection);
 
-
-//        try (FileWriter fileWriter = new FileWriter(file)) {
-//            fileWriter.write(gson.toJson(collection));
-//        } catch (IOException e) {
-//            throw new InputOutputException(new MessengerRu().generateInputOutputMessage());
-//        }
     }
 
 }
