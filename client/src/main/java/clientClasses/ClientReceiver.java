@@ -78,33 +78,7 @@ public class ClientReceiver extends AbstractClientReceiver {
                 }
                 case DATA -> {
                     Vector<Vector<String>> data = (Vector<Vector<String>> ) answer.getObject();
-
-                    Vector<String > header = new Vector<>();
-                    header.addAll(new ArrayList<>(){
-                        {
-                            add("key");
-                            add("user_name");
-                            add("id");
-                            add("name");
-                            add("x_coordinates");
-                            add("y_coordinates");
-                            add("date");
-                            add("price");
-                            add("part_number");
-                            add("manufacture_cost");
-                            add("unit_of_measure");
-                            add("name_person");
-                            add("passport_id_person");
-                            add("hair_color_person");
-                            add("x_location_person");
-                            add("y_location_person");
-                            add("z_location_person");
-                            add("name_location_person");
-                        }
-                    });
-
-
-                    client.getMainFrame().updateRequest(data, header);
+                    client.getMainFrame().updateRequest(data);
 
                 }
                 case DEFAULT -> {

@@ -306,7 +306,7 @@ public class MainFrame extends JFrame {
         servMessage.setText(oldMessages);
     }
 
-    public void updateRequest(Vector<Vector<String>> data, Vector<String> header) {
+    public void updateRequest(Vector<Vector<String>> data) {
 
         deleteOldData(data);
         Vector<Vector<String>> onlyNewData = getOnlyNewData(data);
