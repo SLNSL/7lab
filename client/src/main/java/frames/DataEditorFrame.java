@@ -178,6 +178,7 @@ public class DataEditorFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             Packet packet = new CommandPacket("remove_key", mainFrame.getTable().getModel().getValueAt(row, 0));
+            System.out.println(row + " " + col);
             packet.setUser(client.getLogin(), client.getMessenger());
             client.getClientSender().send(packet);
         }

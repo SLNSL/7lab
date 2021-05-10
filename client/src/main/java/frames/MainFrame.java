@@ -406,6 +406,8 @@ public class MainFrame extends JFrame {
             JTable obj = (JTable) e.getSource();
             int row = obj.rowAtPoint(e.getPoint());
             int col = obj.columnAtPoint(e.getPoint());
+            row = table.convertRowIndexToModel(row);
+            col = table.convertColumnIndexToModel(col);
             DataEditorFrame dataEditorFrame = new DataEditorFrame(frame, client, row, col);
 
 
