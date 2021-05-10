@@ -1,6 +1,15 @@
 package printer;
 
+import frames.MainFrame;
+
+import javax.swing.*;
+
 public class Printer implements Printable {
+    private MainFrame frame;
+
+    public Printer(MainFrame frame){
+        this.frame = frame;
+    }
 
     /**
      * Выводит сообщение
@@ -9,7 +18,7 @@ public class Printer implements Printable {
      */
     @Override
     public void print(Object object) {
-        System.out.print(object);
+        frame.addTextToLabel(object.toString());
     }
 
     /**
@@ -19,7 +28,7 @@ public class Printer implements Printable {
      */
     @Override
     public void println(Object object) {
-        System.out.println(object);
+        frame.addTextToLabel(object.toString() + "\n");
     }
 
     /**
@@ -29,7 +38,7 @@ public class Printer implements Printable {
      */
     @Override
     public void printlnError(Object object) {
-        System.out.println(object);
+        frame.addTextToLabel(object.toString() + "\n");
     }
 
 }

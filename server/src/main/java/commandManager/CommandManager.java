@@ -39,6 +39,8 @@ public class CommandManager implements Manager{
     private Command signIn;
     private Command signUp;
 
+    private Command updateData;
+
 
     public CommandManager() {
     }
@@ -79,6 +81,7 @@ public class CommandManager implements Manager{
         countLessThanOwner = new CountLessThanOwnerCommandServ(collectionManager);
         signIn = new SignInCommandServ(dataBase, serverReceiver);
         signUp = new SignUpCommandServ(dataBase, serverReceiver);
+        updateData = new UpdateDataCommandServ(collectionManager);
     }
 
     /**
@@ -103,6 +106,7 @@ public class CommandManager implements Manager{
         mapOfCommands.put("set_language", this.setLanguage);
         mapOfCommands.put("sign_in", this.signIn);
         mapOfCommands.put("sign_up", this.signUp);
+        mapOfCommands.put("update_data", this.updateData);
     }
 
 

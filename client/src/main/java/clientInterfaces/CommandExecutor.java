@@ -1,6 +1,7 @@
 package clientInterfaces;
 
 import clientClasses.ClientAccount;
+import messenger.Messenger;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -8,9 +9,9 @@ import java.util.Scanner;
 public interface CommandExecutor {
 
     void setScanner(Scanner scanner);
-    void runCommand(ClientAccount clientAuthorization, String[] command);
+    void runCommand(String login, Messenger messenger, String[] command);
 
-    boolean runScript(ClientAccount clientAuthorization, String argument);
+    boolean runScript(String login, Messenger messenger, String argument);
 
     void setMapOfScripts(Map<String, Boolean> mapOfScripts);
 }

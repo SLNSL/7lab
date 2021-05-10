@@ -5,6 +5,7 @@ import java.util.Objects;
 
 
 public class Person implements Comparable<Person>, Serializable {
+    private static final long serialVersionUID = 1234567890L;
     private String name; //Поле не может быть null, Строка не может быть пустой
     private String passportID; //Значение этого поля должно быть уникальным, Поле может быть null
     private Color hairColor; //Поле может быть null

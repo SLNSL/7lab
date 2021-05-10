@@ -10,6 +10,7 @@ import messenger.Messenger;
 import printer.Printable;
 import wrappers.Packet;
 
+import javax.swing.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
@@ -63,17 +64,16 @@ public class ClientCommandExecutor implements CommandExecutor {
 //
 //    }
 
-    public void runCommand(ClientAccount clientAuthorization, String[] command) {
+    @Override
+    public void runCommand(String login, Messenger messenger, String[] command) {
 
-        String login = clientAuthorization.getLogin();
-        Messenger messenger = clientAuthorization.getMessenger();
 
         if (command[0].trim().equals("execute_script")) {
             Packet packet = clientCommandInterpreter.getCommand(command[0]).make(login, messenger, command[1]);
             if (packet.hasError()) {
                 printer.printlnError(packet.getError());
             } else {
-                runScript(clientAuthorization, command[1].trim());
+                runScript(login, messenger, command[1].trim());
                 clientSender.send(packet);
             }
 
@@ -81,11 +81,11 @@ public class ClientCommandExecutor implements CommandExecutor {
 
             ClientCommands clientCommands = clientCommandInterpreter.getCommand(command[0].trim());
             if (clientCommands == null) {
-                printer.println(messenger.generateUnknownCommandMessage());
+                JOptionPane.showMessageDialog(null, messenger.generateUnknownCommandMessage(), "", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 Packet packet = clientCommands.make(login, messenger, command[1].trim());
                 if (packet.hasError()) {
-                    printer.printlnError(packet.getError());
+                    JOptionPane.showMessageDialog(null, packet.getError(), "", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     clientSender.send(packet);
 
@@ -97,14 +97,13 @@ public class ClientCommandExecutor implements CommandExecutor {
     }
 
 
-    public boolean runScript(ClientAccount clientAuthorization, String argument) {
+    public boolean runScript(String login, Messenger messenger, String argument) {
         mapOfScripts.put(argument, true);
         try (Scanner scriptScanner = new Scanner(new FileReader(argument))) {
             do {
                 String fullCommand = scriptScanner.nextLine().trim() + " ";
                 String[] command = fullCommand.split(" ", 2);
-
-                asker.setScanner(scriptScanner);
+                
                 asker.setScriptMode(true);
                 if (command[0].equals("execute_script")) {
                     if (mapOfScripts.get(command[1].trim()) != null && mapOfScripts.get(command[1].trim())) {
@@ -119,7 +118,7 @@ public class ClientCommandExecutor implements CommandExecutor {
                     printer.println("");
                 }
 
-                runCommand(clientAuthorization, command);
+                runCommand(login, messenger, command);
 
 
             } while (scriptScanner.hasNext());

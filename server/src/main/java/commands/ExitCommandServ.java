@@ -26,15 +26,16 @@ public class ExitCommandServ implements Command {
      * @throws IncorrectNumberOfArgumentsException - было передано недопустимое количество аргументов
      */
     @Override
-    public Result<String> execute(int port, String login, Object... args) {
+    public Result<Object> execute(int port, String login, Object... args) {
+        collectionManager.setMessenger(messenger);
 
         Command saveCommand = new SaveCommandServ(collectionManager);
         saveCommand.setMessenger(messenger);
-        Result<String> result = saveCommand.execute(0, login, messenger, 0);
+        Result<Object> result = saveCommand.execute(0, login, messenger, 0);
         if (result.hasError()) {
             logger.error(result.getError());
         } else {
-            logger.info(result.getResult());
+            logger.info(result.getResult().toString());
         }
 
         return new FieldResult<>(messenger.commandIsFinished("exit"));

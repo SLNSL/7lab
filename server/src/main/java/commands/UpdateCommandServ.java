@@ -37,8 +37,8 @@ public class UpdateCommandServ implements Command {
      * @throws IncorrectNumberOfArgumentsException - было передано недопустимое количество аргументов
      */
     @Override
-    public Result<String> execute(int port, String login, Object... args) throws IncorrectNumberOfArgumentsException {
-        if (login.equals("guest")) return new FieldResult<>(messenger.youDontHaveRights());
+    public Result<Object> execute(int port, String login, Object... args) throws IncorrectNumberOfArgumentsException {
+        if (login.equals("guest")) return new FieldResult<>(messenger.youDontHaveRights(),1);
 
         long id = (Long) args[0];
         Product product = (Product) args[1];
@@ -52,7 +52,7 @@ public class UpdateCommandServ implements Command {
         }
         Integer oldKey = oldProductKeyResult.getResult();
         if (!collectionManager.get(oldKey).getResult().getUserName().equals(login)){
-            return new FieldResult<>(messenger.youDontHaveRights());
+            return new FieldResult<>(messenger.youDontHaveRights(),1);
         }
 
 

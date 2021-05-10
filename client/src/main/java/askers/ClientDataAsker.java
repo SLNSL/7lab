@@ -2,6 +2,7 @@ package askers;
 
 import data.Color;
 import data.UnitOfMeasure;
+import scanners.MyScanner;
 
 import java.util.Scanner;
 
@@ -46,9 +47,9 @@ public interface ClientDataAsker {
 
     String askOwnerLocationName();
 
-    void setScanner(Scanner scanner);
+    void setScanner(MyScanner scanner);
 
-    Scanner getScanner();
+    MyScanner getScanner();
 
     void setScriptMode(boolean scriptMode);
 

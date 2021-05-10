@@ -29,8 +29,8 @@ public class InsertCommandServ implements Command {
      * @return - true - если команда работала без ошибок, false - если команда работала с ошибками
      */
     @Override
-    public Result<String> execute(int port, String login, Object... args) {
-        if (login.equals("guest")) return new FieldResult<>(messenger.youDontHaveRights());
+    public Result<Object> execute(int port, String login, Object... args) {
+        if (login.equals("guest")) return new FieldResult<>(messenger.youDontHaveRights(),1);
         Integer key = (Integer) args[0];
         Product product = (Product) args[1];
 

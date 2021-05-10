@@ -5,6 +5,7 @@ import data.Color;
 import data.UnitOfMeasure;
 import printer.Printable;
 import messenger.Messenger;
+import scanners.MyScanner;
 
 import java.util.Scanner;
 
@@ -12,7 +13,7 @@ import java.util.Scanner;
  * Класс, который Запрашивает поле поля.
  */
 public class FieldAsker implements ClientDataAsker {
-    Scanner scanner;
+    private MyScanner scanner;
     private boolean scriptMode;
     private Printable printer;
     private Messenger messenger;
@@ -20,11 +21,11 @@ public class FieldAsker implements ClientDataAsker {
     /**
      * Создаёт объект FieldAsker
      *
-     * @param scanner       - Сканнер работающий на данный момент
-     * @param printer       - вывод информации
-     * @param messenger     - возвращает информацию, на языке пользователя
+     * @param scanner   - Сканнер работающий на данный момент
+     * @param printer   - вывод информации
+     * @param messenger - возвращает информацию, на языке пользователя
      */
-    public FieldAsker(Scanner scanner, Printable printer, Messenger messenger){
+    public FieldAsker(MyScanner scanner, Printable printer, Messenger messenger) {
         this.scanner = scanner;
         this.scriptMode = false;
         this.printer = printer;
@@ -36,6 +37,7 @@ public class FieldAsker implements ClientDataAsker {
     public String askLogin() {
         printer.println(messenger.askLogin());
         String login = scanner.nextLine();
+        printer.println(login);
         return login;
     }
 
@@ -43,6 +45,7 @@ public class FieldAsker implements ClientDataAsker {
     public String askPassword() {
         printer.println(messenger.askPassword());
         String password = scanner.nextLine();
+        printer.println("******");
         return password;
     }
 
@@ -50,13 +53,13 @@ public class FieldAsker implements ClientDataAsker {
      * Запрашивает поле ключ для хранения элемента и проверяет введенное значение на корректность
      *
      * @return - key
-
      */
-    public String askKey(){
+    public String askKey() {
         printer.println(messenger.askKey());
         Integer key;
         String string;
         string = scanner.nextLine();
+        printer.println(string);
         if (scriptMode) printer.println(string);
         if (string == null) return null;
         return string;
@@ -64,13 +67,14 @@ public class FieldAsker implements ClientDataAsker {
 
     /**
      * Запрашивает поле поле id элемента и проверяет ввод (используется только в команде update) и проверяет введенное значение на корректность
+     *
      * @return id
-
      */
-    public String askId(){
+    public String askId() {
         printer.println(messenger.askID());
         String string;
         string = scanner.nextLine();
+        printer.println(string);
         if (scriptMode) printer.println(string);
 //        id = fielsChecker.checkId(string, willExist);
         return string;
@@ -78,13 +82,14 @@ public class FieldAsker implements ClientDataAsker {
 
     /**
      * Запрашивает поле name элемента и проверяет правильность введенного значения
+     *
      * @return - name
-
      */
-    public String askName(){
+    public String askName() {
         printer.println(messenger.askName());
         String name;
         name = scanner.nextLine();
+        printer.println(name);
         if (scriptMode) printer.println(name);
 //        name = fielsChecker.checkName(name);
         return name;
@@ -92,12 +97,13 @@ public class FieldAsker implements ClientDataAsker {
 
     /**
      * Запрашивает поле coordinates.x элемента и проверяет введенное значение на корректность
+     *
      * @return - coordinates.x
-
      */
-    public String askCoordinatesX(){
+    public String askCoordinatesX() {
         printer.println(messenger.askCoordinatesX());
         String string = scanner.nextLine();
+        printer.println(string);
         if (scriptMode) printer.println(string);
 //        x = fielsChecker.checkCoordinatesX(string);
         return string;
@@ -105,12 +111,13 @@ public class FieldAsker implements ClientDataAsker {
 
     /**
      * Запрашивает поле coordinates.y элемента и проверяет введенное значение на корректность
+     *
      * @return - coordinates.y
-
      */
-    public String askCoordinatesY(){
+    public String askCoordinatesY() {
         printer.println(messenger.askCoordinatesY());
         String string = scanner.nextLine();
+        printer.println(string);
         if (scriptMode) printer.println(string);
 //        y = fielsChecker.checkCoordinatesY(string);
         return string;
@@ -120,12 +127,12 @@ public class FieldAsker implements ClientDataAsker {
      * Запрашивает поле price элемента и проверяет введенное значение на корректность
      *
      * @return - price
-
      */
     public String askPrice() {
         double price;
         printer.println(messenger.askPrice());
         String string = scanner.nextLine();
+        printer.println(string);
         if (scriptMode) printer.println(string);
 //        price = fielsChecker.checkPrice(string);
         return string;
@@ -135,12 +142,12 @@ public class FieldAsker implements ClientDataAsker {
      * Запрашивает поле partNumber элемента и проверяет введенное значение на корректность
      *
      * @return partNumber
-
      */
     public String askPartNumber() {
         printer.println(messenger.askPartNumber());
         String partNumber;
         partNumber = scanner.nextLine();
+        printer.println(partNumber);
         if (scriptMode) printer.println(partNumber);
 //        partNumber = fielsChecker.checkPartNumber(partNumber);
         return partNumber;
@@ -150,12 +157,12 @@ public class FieldAsker implements ClientDataAsker {
      * Запрашивает поле manufactureCost элемента и проверяет введенное значение на корректность
      *
      * @return manufactureCost
-
      */
-    public String askManufactureCost(){
+    public String askManufactureCost() {
         double manufactureCost;
         printer.println(messenger.askManufactureCost());
         String string = scanner.nextLine();
+        printer.println(string);
         if (scriptMode) printer.println(string);
 //        manufactureCost = fielsChecker.checkManufactureCost(string);
         return string;
@@ -165,13 +172,13 @@ public class FieldAsker implements ClientDataAsker {
      * Запрашивает поле unitOfMeasure элемента и проверяет введенное значение на корректность
      *
      * @return unitOfMeasure
-
      */
-    public String askUnitOfMeasure(){
+    public String askUnitOfMeasure() {
         UnitOfMeasure unitOfMeasure;
         printer.println(messenger.askUnitOfMeasure());
         String string;
         string = scanner.nextLine();
+        printer.println(string);
         if (scriptMode) printer.println(string);
 //        unitOfMeasure = fielsChecker.checkUnitOfMeasure(string);
         return string;
@@ -182,11 +189,11 @@ public class FieldAsker implements ClientDataAsker {
      * Запрашивает поле owner.name элемента и проверяет введенное значение на корректность
      *
      * @return owner.name
-
      */
     public String askOwnerName() {
         printer.println(messenger.askOwnerName());
         String name = scanner.nextLine();
+        printer.println(name);
         if (scriptMode) printer.println(name);
 //        name = fielsChecker.checkOwnerName(name);
         return name;
@@ -194,12 +201,13 @@ public class FieldAsker implements ClientDataAsker {
 
     /**
      * Запрашивает поле owner.passportID элемента и проверяет введенное значение на корректность
+     *
      * @return owner.passportID
-
      */
     public String askOwnerPassportID() {
         printer.println(messenger.askOwnerPassportID());
         String passportId = scanner.nextLine();
+        printer.println(passportId);
         if (scriptMode) printer.println(passportId);
 //        passportId = fielsChecker.checkOwnerPassportId(passportId, willExist);
         return passportId;
@@ -209,13 +217,13 @@ public class FieldAsker implements ClientDataAsker {
      * Запрашивает поле owner.hairColor элемента и проверяет введенное значение на корректность
      *
      * @return owner.hairColor
-
      */
     public String askOwnerHairColor() {
         printer.println(messenger.askOwnerHairColor());
         Color color;
         String string;
         string = scanner.nextLine();
+        printer.println(string);
         if (scriptMode) printer.println(string);
         if (string == null) return null;
 //        color = fielsChecker.checkOwnerHairColor(string);
@@ -226,12 +234,12 @@ public class FieldAsker implements ClientDataAsker {
      * Запрашивает owner.location.x элемента и проверяет введенное значение на корректность
      *
      * @return owner.location.x
-
      */
     public String askOwnerLocationX() {
         printer.println(messenger.askOwnerLocationX());
         long x;
         String string = scanner.nextLine();
+        printer.println(string);
         if (scriptMode) printer.println(string);
 //        x = fielsChecker.checkOwnerLocationX(string);
         return string;
@@ -241,12 +249,12 @@ public class FieldAsker implements ClientDataAsker {
      * Запрашивает owner.location.y элемента и проверяет введенное значение на корректность
      *
      * @return owner.location.y
-
      */
     public String askOwnerLocationY() {
         printer.println(messenger.askOwnerLocationY());
         double y;
         String string = scanner.nextLine();
+        printer.println(string);
         if (scriptMode) printer.println(string);
 //        y = fielsChecker.checkOwnerLocationY(string);
         return string;
@@ -256,12 +264,12 @@ public class FieldAsker implements ClientDataAsker {
      * Запрашивает owner.location.z элемента и проверяет введенное значение на корректность
      *
      * @return owner.location.z
-
      */
     public String askOwnerLocationZ() {
         printer.println(messenger.askOwnerLocationZ());
         Float z;
         String string = scanner.nextLine();
+        printer.println(string);
         if (scriptMode) printer.println(string);
 //        z = fielsChecker.checkOwnerLocationZ(string);
         return string;
@@ -271,12 +279,12 @@ public class FieldAsker implements ClientDataAsker {
      * Запрашивает owner.location.name элемента и проверяет введенное значение на корректность
      *
      * @return owner.location.name
-
      */
     public String askOwnerLocationName() {
         printer.println(messenger.askOwnerLocationName());
         String name;
         name = scanner.nextLine();
+        printer.println(name);
         if (scriptMode) printer.println(name);
 //        name = fielsChecker.checkOwnerName(name);
         return name;
@@ -287,11 +295,11 @@ public class FieldAsker implements ClientDataAsker {
      *
      * @param scanner
      */
-    public void setScanner(Scanner scanner) {
+    public void setScanner(MyScanner scanner) {
         this.scanner = scanner;
     }
 
-    public Scanner getScanner() {
+    public MyScanner getScanner() {
         return scanner;
     }
 

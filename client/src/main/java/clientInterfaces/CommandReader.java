@@ -1,8 +1,9 @@
 package clientInterfaces;
 
 import clientClasses.ClientAccount;
+import messenger.Messenger;
 
 public interface CommandReader {
 
-    void read(ClientAccount clientAuthorization);
+    void read(ClientAccount clientAccount);
 }

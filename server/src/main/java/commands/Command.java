@@ -8,7 +8,7 @@ import wrappers.Result;
 import java.net.InetAddress;
 
 public interface Command {
-    Result<String> execute(int port, String login, Object... args) throws IncorrectNumberOfArgumentsException;
+    Result<Object> execute(int port, String login, Object... args) throws IncorrectNumberOfArgumentsException;
 
     void setMessenger(Messenger messenger);
 

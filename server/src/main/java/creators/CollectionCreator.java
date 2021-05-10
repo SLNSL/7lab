@@ -18,7 +18,7 @@ public class CollectionCreator implements Creator {
     public CollectionCreator() {
     }
 
-    public Map<Integer, Product> createCollection(Map<Integer, Product> products, Gson gson, ServerDataChecker fieldsChecker, Messenger messenger) {
+    public Map<Integer, Product> createCollection(Map<Integer, Product> products, Gson gson, ServerDataChecker fieldsChecker, Messenger messenger, DataBase dataBase) {
 
         fieldsChecker.setMapOfId(new HashMap<>());
 
@@ -34,7 +34,7 @@ public class CollectionCreator implements Creator {
 
         result = products;
 
-        Result<Map<Integer, Product>> collectionResult = LoadedChecker.checkCollection(result, fieldsChecker);
+        Result<Map<Integer, Product>> collectionResult = LoadedChecker.checkCollection(result, fieldsChecker, dataBase);
         result = collectionResult.getResult();
 
 

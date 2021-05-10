@@ -8,21 +8,23 @@ import clientInterfaces.ClientSenderInterface;
 import commandManager.CommandManager;
 import messenger.Messenger;
 import printer.Printable;
+import scanners.MyScanner;
 
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
-public class ClientCommandReader implements CommandReader {
+public class ClientCommandReader extends Thread {
     private ClientSenderInterface clientSender;
     private AbstractClientReceiver clientReceiver;
     private Printable printer;
     private CommandManager commandInterpreter;
-    private Scanner scanner;
+    private MyScanner scanner;
     private ClientDataAsker asker;
     private Messenger messenger;
+    private Client client;
 
-    public ClientCommandReader(ClientSenderInterface clientSender, AbstractClientReceiver clientReceiver, CommandManager commandInterpreter,
-                               Printable printer, Scanner scanner, ClientDataAsker asker,
+    public ClientCommandReader(Client client, ClientSenderInterface clientSender, AbstractClientReceiver clientReceiver, CommandManager commandInterpreter,
+                               Printable printer, MyScanner scanner, ClientDataAsker asker,
                                Messenger messenger) {
         this.clientSender = clientSender;
         this.clientReceiver = clientReceiver;
@@ -31,26 +33,24 @@ public class ClientCommandReader implements CommandReader {
         this.scanner = scanner;
         this.asker = asker;
         this.messenger = messenger;
+        this.client = client;
     }
 
-
-    public void read(ClientAccount clientAuthorization) {
+    @Override
+    public void run() {
         String[] command;
-        String fullCommand;
         CommandExecutor clientCommandExecutor =
                 new ClientCommandExecutor(clientSender, printer, commandInterpreter,
                         messenger, asker);
-
         while (true) {
             try {
                 clientCommandExecutor.setMapOfScripts(new LinkedHashMap<>());
                 asker.setScriptMode(false);
-                asker.setScanner(new Scanner(System.in));
-                fullCommand = scanner.nextLine().trim() + " ";
+                String fullCommand = scanner.nextLine() + " ";
+                printer.println(fullCommand);
                 command = fullCommand.split(" ", 2);
-                clientCommandExecutor.runCommand(clientAuthorization, command);
-                if (command[0].trim().equals("exit") && command[1].isEmpty()) break;
-
+                clientCommandExecutor.runCommand(client.getLogin(), client.getMessenger(), command);
+                if (command[0].trim().equals("exit") && command[1].isEmpty()) return;
 
 
             } catch (SecurityException e) {

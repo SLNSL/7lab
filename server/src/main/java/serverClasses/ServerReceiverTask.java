@@ -63,6 +63,7 @@ public class ServerReceiverTask extends ServerReceiverAbstract {
     }
 
     public DatagramPacket receive() {
+
         try {
             receiveBuf = new byte[8192];
 
@@ -70,6 +71,7 @@ public class ServerReceiverTask extends ServerReceiverAbstract {
                     = new DatagramPacket(receiveBuf, receiveBuf.length);
 
             socket.receive(packet);
+
             this.previousDatagramPacket = thisDatagramPacket;
             this.thisDatagramPacket = packet;
 
@@ -92,6 +94,7 @@ public class ServerReceiverTask extends ServerReceiverAbstract {
             return packet;
         } catch (IOException | ClassNotFoundException e) {
             logger.error("Произошла ошибка ", e);
+            e.printStackTrace();
         }
         return null;
     }

@@ -23,8 +23,9 @@ public class ReplaceIfGreaterCommandServ implements Command {
 
 
     @Override
-    public Result<String> execute(int port, String login, Object... args) throws IncorrectNumberOfArgumentsException {
-        if (login.equals("guest")) return new FieldResult<>(messenger.youDontHaveRights());
+    public Result<Object> execute(int port, String login, Object... args) throws IncorrectNumberOfArgumentsException {
+        if (login.equals("guest")) return new FieldResult<>(messenger.youDontHaveRights(),1);
+        collectionManager.setMessenger(messenger);
         Integer key = (Integer) args[0];
         Product product = (Product) args[1];
 

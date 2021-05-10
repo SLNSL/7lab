@@ -2,9 +2,11 @@ package clientClasses;
 
 import clientInterfaces.AbstractClientReceiver;
 import messenger.Messenger;
+import messenger.MessengerEng;
 import printer.Printable;
 import wrappers.*;
 
+import javax.swing.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -12,6 +14,8 @@ import java.net.PortUnreachableException;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
+import java.util.ArrayList;
+import java.util.Vector;
 
 public class ClientReceiver extends AbstractClientReceiver {
 
@@ -19,9 +23,11 @@ public class ClientReceiver extends AbstractClientReceiver {
     private DatagramChannel datagramChannel;
     private SocketAddress socketAddress;
     private Printable printer;
-    private Messenger messenger;
+    private Messenger messenger = new MessengerEng();
 
     private Client client;
+
+    private boolean isItFirstMessage = true;
 
     public ClientReceiver(DatagramChannel datagramChannel, SocketAddress socketAddress, Printable printer, Messenger messenger, Client client) {
         this.datagramChannel = datagramChannel;
@@ -59,38 +65,107 @@ public class ClientReceiver extends AbstractClientReceiver {
             ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
             Answer answer = (Answer) objectInputStream.readObject();
 
-            if (answer.getAnswerType().equals(AnswerType.AUTHORIZATION)) {
-                if (!answer.hasError()) {
-                    String[] answerMessage = answer.getResult().toString().split(" ", 3);
-                    client.setLogin(answerMessage[1]);
-                    printer.println(answerMessage[0] + " " + answerMessage[1] + "!");
-                } else {
-                    printer.printlnError(answer.getError());
-                }
-
-            } else {
-
-                if (answer.hasError()) {
-                    if (answer.getErrorType() != 2) printer.println(answer.getError());
-                    if (answer.getErrorType() == 2) {
-                        printer.println(answer.getError());
-                        Thread.currentThread().interrupt();
+            switch (answer.getAnswerType()){
+                case AUTHORIZATION -> {
+                    if (!answer.hasError()) {
+                        String[] answerMessage = answer.getResult().toString().split(" ", 3);
+                        client.setLogin(answerMessage[1]);
+                        JOptionPane.showMessageDialog(null, answerMessage[0] + " " + answerMessage[1] + "!", "", JOptionPane.PLAIN_MESSAGE);
+                        client.getMainFrame().setLogin(messenger.currentUserWord() + client.getLogin());
+                    } else {
+                        JOptionPane.showMessageDialog(null, answer.getError(), "", JOptionPane.INFORMATION_MESSAGE);
                     }
-                } else {
-                    if ((answer.getResult() instanceof String)) printer.println(answer.getResult());
                 }
+                case DATA -> {
+                    Vector<Vector<String>> data = (Vector<Vector<String>> ) answer.getObject();
 
+                    Vector<String > header = new Vector<>();
+                    header.addAll(new ArrayList<>(){
+                        {
+                            add("key");
+                            add("user_name");
+                            add("id");
+                            add("name");
+                            add("x_coordinates");
+                            add("y_coordinates");
+                            add("date");
+                            add("price");
+                            add("part_number");
+                            add("manufacture_cost");
+                            add("unit_of_measure");
+                            add("name_person");
+                            add("passport_id_person");
+                            add("hair_color_person");
+                            add("x_location_person");
+                            add("y_location_person");
+                            add("z_location_person");
+                            add("name_location_person");
+                        }
+                    });
+
+
+                    client.getMainFrame().updateRequest(data, header);
+
+                }
+                case DEFAULT -> {
+                    if (answer.hasError()) {
+                        if (answer.getErrorType() != 2) {
+                            JOptionPane.showMessageDialog(null, answer.getError(), "", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                        if (answer.getErrorType() == 2) {
+                            JOptionPane.showMessageDialog(null, answer.getError(), "", JOptionPane.INFORMATION_MESSAGE);
+                            System.exit(0);
+                        }
+                    } else {
+                        if (answer.getResult() instanceof String) {
+                            printer.println(answer.getResult().toString());
+                        }
+                    }
+                }
             }
 
+
+//            if (answer.getAnswerType().equals(AnswerType.AUTHORIZATION)) {
+//                if (!answer.hasError()) {
+//                    String[] answerMessage = answer.getResult().toString().split(" ", 3);
+//                    client.setLogin(answerMessage[1]);
+//                    JOptionPane.showMessageDialog(null, answerMessage[0] + " " + answerMessage[1] + "!", "", JOptionPane.PLAIN_MESSAGE);
+//                } else {
+//                    JOptionPane.showMessageDialog(null, answer.getError(), "", JOptionPane.INFORMATION_MESSAGE);
+//                }
+//
+//            } else {
+//
+//                if (answer.hasError()) {
+//                    if (answer.getErrorType() != 2) {
+//                        JOptionPane.showMessageDialog(null, answer.getError(), "", JOptionPane.INFORMATION_MESSAGE);
+//                    }
+//                    if (answer.getErrorType() == 2) {
+//                        JOptionPane.showMessageDialog(null, answer.getError(), "", JOptionPane.INFORMATION_MESSAGE);
+//                        System.exit(0);
+//                    }
+//                } else {
+//                    if (answer.getResult() instanceof String) {
+//                        printer.println(answer.getResult().toString());
+//                    }
+//                }
+//
+//            }
+            byteArrayInputStream.close();
+            objectInputStream.close();
+
             buf.clear();
+
 
             datagramChannel.disconnect();
 
             return answer;
         } catch (PortUnreachableException | IllegalStateException e) {
             printer.printlnError(messenger.generateServerUnavailable());
+            e.printStackTrace();
         } catch (IOException | ClassNotFoundException e) {
             printer.printlnError(messenger.generateUnexpectedErrorMessage());
+            e.printStackTrace();
         }
         return null;
     }

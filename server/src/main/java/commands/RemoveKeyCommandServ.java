@@ -22,9 +22,10 @@ public class RemoveKeyCommandServ implements Command {
 
 
     @Override
-    public Result<String> execute(int port, String login, Object... args) throws IncorrectNumberOfArgumentsException {
-        if (login.equals("guest")) return new FieldResult<>(messenger.youDontHaveRights());
+    public Result<Object> execute(int port, String login, Object... args) throws IncorrectNumberOfArgumentsException {
+        if (login.equals("guest")) return new FieldResult<>(messenger.youDontHaveRights(),1);
         Integer key = (Integer) args[0];
+        collectionManager.setMessenger(messenger);
 
         Result<Object> result = collectionManager.canBeDeleted(key, login);
         if (result.hasError()) {

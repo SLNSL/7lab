@@ -13,17 +13,17 @@ public class LanguageCommandServ implements Command {
     }
 
     @Override
-    public Result<String> execute(int port, String login, Object... args) throws IncorrectNumberOfArgumentsException {
+    public Result<Object> execute(int port, String login, Object... args) throws IncorrectNumberOfArgumentsException {
         String language = args[0].toString();
 
         Result<Messenger> messengerResult = new Translator().setLanguage(language.trim());
         if (messengerResult.hasError()) {
-            Result<String> fieldResult = new FieldResult<>();
-            fieldResult.setError(messengerResult.getError());
+            Result<Object> fieldResult = new FieldResult<>();
+            fieldResult.setError(messengerResult.getError(), 2);
             return fieldResult;
         }
         this.messenger = messengerResult.getResult();
-        return new FieldResult<>(this.messenger.languageHasBeenInstalled());
+        return new FieldResult<>();
 
 
     }

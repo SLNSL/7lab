@@ -17,6 +17,7 @@ public abstract class AbstractMessenger implements Messenger, Serializable {
         for (String i : commandsInfo.keySet()) {
             info.append(i + ": " + commandsInfo.get(i) + "\n");
         }
+
         return info.toString();
     }
 

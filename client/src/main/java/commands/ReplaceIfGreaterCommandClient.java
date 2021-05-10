@@ -31,12 +31,12 @@ public class ReplaceIfGreaterCommandClient implements ClientCommands {
             return packet;
         }
         Integer key;
-        Result<Integer> keyResult = clientDataChecker.checkKey(clientDataAsker.askKey());
+        Result<Object> keyResult = clientDataChecker.checkKey(clientDataAsker.askKey());
         if (keyResult.hasError()){
             Packet packet = new CommandPacket(keyResult.getError());
             return packet;
         }
-        key = keyResult.getResult();
+        key = (Integer) keyResult.getResult();
 
 
         ClientDataCreator clientDataCreator = new ObjectCreator();

@@ -11,9 +11,11 @@ import messenger.Messenger;
 import checker.ServerDataChecker;
 import creators.CollectionCreator;
 import creators.Creator;
+import messenger.MessengerEng;
 import wrappers.FieldResult;
 import wrappers.Result;
 
+import javax.swing.*;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,7 +34,7 @@ public class CollectionManager implements Collection {
 
     private ServerDataChecker fieldsChecker;
 
-    private Messenger messenger;
+    private Messenger messenger = new MessengerEng();
 
     private DataBase dataBase;
 
@@ -49,7 +51,7 @@ public class CollectionManager implements Collection {
      */
     public void load() {
         Creator creator = new CollectionCreator();
-        productCollection = creator.createCollection(fileManager.load(fieldsChecker), new Gson(), fieldsChecker, messenger);
+        productCollection = creator.createCollection(fileManager.load(fieldsChecker), new Gson(), fieldsChecker, messenger, dataBase);
         initTime = LocalDateTime.now();
     }
 
@@ -61,12 +63,12 @@ public class CollectionManager implements Collection {
     public Result<Object> canBeDeleted(Integer key, String login) {
         Result<Object> result = new FieldResult<>();
         if (productCollection.get(key) == null) {
-            result.setError(messenger.generateElementDoesntExistMessage());
+            result.setError(messenger.generateElementDoesntExistMessage(), 1);
             return result;
         }
 
         if (!productCollection.get(key).getUserName().equals(login)){
-            result.setError(messenger.youDontHaveRights());
+            result.setError(messenger.youDontHaveRights(), 1);
             return result;
         }
 
@@ -87,27 +89,9 @@ public class CollectionManager implements Collection {
      * @return информация о коллекции в строковом представлении
      */
     public String info() {
-        for (long i : fieldsChecker.getMapOfId().keySet()) {
-            System.out.println(i + " " + fieldsChecker.getMapOfId().get(i) + " ");
-        }
-        System.out.println();
-        for (String i : fieldsChecker.getMapOfPassportId().keySet()) {
-            System.out.println(i + " " + fieldsChecker.getMapOfPassportId().get(i) + " ");
-        }
-
-        String DELETETHIS = "";
-
-        for (String i : fieldsChecker.getMapOfPassportId().keySet()) {
-            DELETETHIS += i + " " + fieldsChecker.getMapOfPassportId().get(i) + "\n";
-        }
-        DELETETHIS += "\n";
-
-        for (long i : fieldsChecker.getMapOfId().keySet()) {
-            DELETETHIS += i + " " + fieldsChecker.getMapOfId().get(i) + "\n";
-        }
 
 
-        return messenger.getInfo(productCollection.getClass().getName(), Product.class.getName(), initTime, productCollection.size()) + DELETETHIS;
+        return messenger.getInfo(productCollection.getClass().getName(), Product.class.getName(), initTime, productCollection.size());
     }
 
 
@@ -176,7 +160,7 @@ public class CollectionManager implements Collection {
                     .findFirst().get().getValue();
             result.setResult(product);
         } catch (NoSuchElementException e) {
-            result.setError(messenger.generateElementDoesntExistMessage());
+            result.setError(messenger.generateElementDoesntExistMessage(), 1);
             return result;
         }
 
@@ -199,7 +183,7 @@ public class CollectionManager implements Collection {
                     .findFirst().get().getKey();
             keyResult.setResult(key);
         } catch (NoSuchElementException e) {
-            keyResult.setError(messenger.generateElementDoesntExistMessage());
+            keyResult.setError(messenger.generateElementDoesntExistMessage(), 1);
             return keyResult;
         }
 
@@ -226,7 +210,7 @@ public class CollectionManager implements Collection {
     public Result<Product> minByUnitOfMeasure() {
         if (productCollection.isEmpty()) {
             Result<Product> result = new FieldResult<>();
-            result.setError(messenger.generateEmptyCollectionMessage());
+            result.setError(messenger.generateEmptyCollectionMessage(), 1);
             return result;
         }
         Product p1;
@@ -251,7 +235,7 @@ public class CollectionManager implements Collection {
     public Result<Product> maxByUnitOfMeasure() {
         if (productCollection.isEmpty()) {
             Result<Product> result = new FieldResult<>();
-            result.setError(messenger.generateEmptyCollectionMessage());
+            result.setError(messenger.generateEmptyCollectionMessage(), 1);
             return result;
         }
         ;
@@ -281,7 +265,7 @@ public class CollectionManager implements Collection {
                     .findFirst().get().getValue();
             result.setResult(product);
         } catch (NoSuchElementException e) {
-            result.setError(messenger.generateElementDoesntExistMessage());
+            result.setError(messenger.generateElementDoesntExistMessage(), 1);
             return result;
         }
         return result;
@@ -319,7 +303,7 @@ public class CollectionManager implements Collection {
         return null;
     }
 
-    public synchronized Map<Integer, Product> getProductCollection() {
+    public Map<Integer, Product> getProductCollection() {
         return productCollection;
     }
 
@@ -329,7 +313,51 @@ public class CollectionManager implements Collection {
     }
 
     @Override
-    public void updateCollection() {
+    public synchronized Vector<Vector<String>> updateRequest() {
+        Vector<Vector<String>> data = new Vector<>();
+
+
+        for (Integer i : dataBase.getData().keySet()){
+            Product product = dataBase.getData().get(i);
+            Vector<String> row = new Vector<>();
+            row.add(String.valueOf(getKey(product)));
+            row.add(product.getUserName());
+            row.add(String.valueOf(product.getId()));
+            row.add(String.valueOf(product.getName()));
+            row.add(String.valueOf(product.getCoordinates().getX()));
+            row.add(String.valueOf(product.getCoordinates().getY()));
+            row.add(String.valueOf(product.getCreationDate()));
+            row.add(String.valueOf(product.getPrice()));
+            row.add(String.valueOf(product.getPartNumber()));
+            row.add(String.valueOf(product.getManufactureCost()));
+            row.add(String.valueOf(product.getUnitOfMeasure()));
+            if (product.getOwner() == null){
+                row.add(null);
+                row.add(null);
+                row.add(null);
+                row.add(null);
+                row.add(null);
+                row.add(null);
+                row.add(null);
+            } else {
+                row.add(String.valueOf(product.getOwner().getName()));
+                row.add(String.valueOf(product.getOwner().getPassportID()));
+                row.add(String.valueOf(product.getOwner().getHairColor()));
+                row.add(String.valueOf(product.getOwner().getLocation().getX()));
+                row.add(String.valueOf(product.getOwner().getLocation().getY()));
+                row.add(String.valueOf(product.getOwner().getLocation().getZ()));
+                row.add(String.valueOf(product.getOwner().getLocation().getName()));
+            }
+            data.add(row);
+
+
+        }
+        return data;
+
+    }
+
+    @Override
+    public synchronized void updateCollection() {
         productCollection = dataBase.getData();
         fieldsChecker.setMapOfId(new HashMap<>());
         fieldsChecker.setMapOfPassportId(new HashMap<>());
@@ -345,5 +373,7 @@ public class CollectionManager implements Collection {
             fieldsChecker.getMapOfPassportId().put(passportId, true);
         }
     }
+
+
 
 }

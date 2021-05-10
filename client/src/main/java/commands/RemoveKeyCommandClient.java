@@ -23,11 +23,11 @@ public class RemoveKeyCommandClient implements ClientCommands {
             return packet;
         }
 
-        Result<Integer> keyResult = clientDataChecker.checkKey(message);
+        Result<Object> keyResult = clientDataChecker.checkKey(message);
         if (keyResult.hasError()){
             return new CommandPacket(keyResult.getError());
         }
-        Integer key = keyResult.getResult();
+        Integer key = (Integer) keyResult.getResult();
 
         Packet packet = new CommandPacket("remove_key", key);
         packet.setUser(login, messenger);

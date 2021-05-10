@@ -9,6 +9,7 @@ public enum UnitOfMeasure implements Serializable {
     SQUARE_METERS,
     LITERS,
     MILLIGRAMS;
+    private static final long serialVersionUID = 1234567890L;
 
     UnitOfMeasure() {
     }

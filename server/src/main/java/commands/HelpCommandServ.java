@@ -19,7 +19,8 @@ public class HelpCommandServ implements Command {
      * @throws IncorrectNumberOfArgumentsException - было передано недопустимое количество аргументов
      */
     @Override
-    public Result<String> execute(int port, String login, Object... args) {
+    public Result<Object> execute(int port, String login, Object... args) {
+
 
 
         return new FieldResult<>(messenger.getCommandsInfo() + "\n" + messenger.commandIsFinished("help") + "\n");

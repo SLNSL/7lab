@@ -20,7 +20,7 @@ public class ServerReceiverPool extends Thread{
         this.serverSender = serverSender;
         this.server = server;
         this.dataBase = dataBase;
-        this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
+        this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(20);
     }
 
 

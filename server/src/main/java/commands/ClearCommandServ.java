@@ -22,8 +22,8 @@ public class ClearCommandServ implements Command {
 
 
     @Override
-    public Result<String> execute(int port, String login, Object... args) throws IncorrectNumberOfArgumentsException {
-        if (login.equals("guest")) return new FieldResult<>(messenger.youDontHaveRights());
+    public Result<Object> execute(int port, String login, Object... args) throws IncorrectNumberOfArgumentsException {
+        if (login.equals("guest")) return new FieldResult<>(messenger.youDontHaveRights(),1);
         collectionManager.setMessenger(messenger);
 
         for (Integer i : dataBase.getData().keySet()){

@@ -21,6 +21,8 @@ public class Translator {
     static {
         availableLanguages.put("rus", new MessengerRu());
         availableLanguages.put("eng", new MessengerEng());
+        availableLanguages.put("rum", new MessengerRum());
+        availableLanguages.put("kat", new MessengerKat());
     }
 
     /**
@@ -34,7 +36,7 @@ public class Translator {
             language = language.trim();
             if (!language.isEmpty()) {
                 if ((!getAvailableLanguages().containsKey(language))) {
-                    result.setError("Поле language введено неверно! / Field language entered incorrectly!");
+                    result.setError("Поле language введено неверно! / Field language entered incorrectly!", 2);
                     return result;
                 } else {
                     result.setResult(availableLanguages.get(language));
@@ -45,7 +47,7 @@ public class Translator {
             return result;
         }
 
-        result.setError("Ожидался ввод");
+        result.setError("Ожидался ввод", 2);
         return result;
     }
 

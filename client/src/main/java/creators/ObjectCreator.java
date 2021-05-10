@@ -40,7 +40,7 @@ public class ObjectCreator implements ClientDataCreator {
 
             field = fieldsChecker.checkName(fieldsAsker.askName());
             if (field.hasError()) {
-                result.setError(field.getError());
+                result.setError(field.getError(), 1);
                 return result;
             } else {
                 name = (String) field.getResult();
@@ -50,7 +50,7 @@ public class ObjectCreator implements ClientDataCreator {
 
             field = fieldsChecker.checkCoordinatesX(fieldsAsker.askCoordinatesX());
             if (field.hasError()) {
-                result.setError(field.getError());
+                result.setError(field.getError(), 1);
                 return result;
             } else {
                 coordinatesX = (Long) field.getResult();
@@ -59,7 +59,7 @@ public class ObjectCreator implements ClientDataCreator {
 
             field = fieldsChecker.checkCoordinatesY(fieldsAsker.askCoordinatesY());
             if (field.hasError()) {
-                result.setError(field.getError());
+                result.setError(field.getError(), 1);
                 return result;
             } else {
                 coordinatesY = (Double) field.getResult();
@@ -73,7 +73,7 @@ public class ObjectCreator implements ClientDataCreator {
 
             field = fieldsChecker.checkPrice(fieldsAsker.askPrice());
             if (field.hasError()) {
-                result.setError(field.getError());
+                result.setError(field.getError(), 1);
                 return result;
             } else {
                 price = (Double) field.getResult();
@@ -83,7 +83,7 @@ public class ObjectCreator implements ClientDataCreator {
 
             field = fieldsChecker.checkPartNumber(fieldsAsker.askPartNumber());
             if (field.hasError()) {
-                result.setError(field.getError());
+                result.setError(field.getError(), 1);
                 return result;
             } else {
                 partNumber = (String) field.getResult();
@@ -93,7 +93,7 @@ public class ObjectCreator implements ClientDataCreator {
 
             field = fieldsChecker.checkManufactureCost(fieldsAsker.askManufactureCost());
             if (field.hasError()) {
-                result.setError(field.getError());
+                result.setError(field.getError(), 1);
                 return result;
             } else {
                 manufactureCost = (Double) field.getResult();
@@ -103,7 +103,7 @@ public class ObjectCreator implements ClientDataCreator {
 
             field = fieldsChecker.checkUnitOfMeasure(fieldsAsker.askUnitOfMeasure());
             if (field.hasError()) {
-                result.setError(field.getError());
+                result.setError(field.getError(), 1);
                 return result;
             } else {
                 unitOfMeasure = (UnitOfMeasure) field.getResult();
@@ -112,7 +112,7 @@ public class ObjectCreator implements ClientDataCreator {
 
             field = createOwner(willExist, fieldsChecker, fieldsAsker, printer);
             if (field.hasError()) {
-                result.setError(field.getError());
+                result.setError(field.getError(), 1);
                 break;
             } else {
                 owner = (Person) field.getResult();
@@ -145,7 +145,7 @@ public class ObjectCreator implements ClientDataCreator {
         while (!exit) {
             field = fieldsChecker.checkOwnerName(fieldsAsker.askOwnerName());
             if (field.hasError()) {
-                result.setError(field.getError());
+                result.setError(field.getError(), 1);
                 return result;
             } else {
                 ownerName = (String) field.getResult();
@@ -154,7 +154,7 @@ public class ObjectCreator implements ClientDataCreator {
 
             field = fieldsChecker.checkOwnerPassportId(fieldsAsker.askOwnerPassportID(), true);
             if (field.hasError()){
-                result.setError(field.getError());
+                result.setError(field.getError(), 1);
                 return result;
             } else {
                 ownerPassportId = (String) field.getResult();
@@ -163,7 +163,7 @@ public class ObjectCreator implements ClientDataCreator {
 
             field = fieldsChecker.checkOwnerHairColor(fieldsAsker.askOwnerHairColor());
             if (field.hasError()) {
-                result.setError(field.getError());
+                result.setError(field.getError(),1);
                 return result;
             } else {
                 ownerHairColor = (Color) field.getResult();
@@ -173,7 +173,7 @@ public class ObjectCreator implements ClientDataCreator {
 
             field = fieldsChecker.checkOwnerLocationX(fieldsAsker.askOwnerLocationX());
             if (field.hasError()) {
-                result.setError(field.getError());
+                result.setError(field.getError(), 1);
                 return result;
             } else {
                 ownerLocationX = (Long) field.getResult();
@@ -183,7 +183,7 @@ public class ObjectCreator implements ClientDataCreator {
 
             field = fieldsChecker.checkOwnerLocationY(fieldsAsker.askOwnerLocationY());
             if (field.hasError()) {
-                result.setError(field.getError());
+                result.setError(field.getError(), 1);
                 return result;
             } else {
                 ownerLocationY = (Double) field.getResult();
@@ -193,7 +193,7 @@ public class ObjectCreator implements ClientDataCreator {
 
             field = fieldsChecker.checkOwnerLocationZ(fieldsAsker.askOwnerLocationZ());
             if (field.hasError()) {
-                result.setError(field.getError());
+                result.setError(field.getError(), 1);
                 return result;
             } else {
                 ownerLocationZ = (Float) field.getResult();
@@ -202,7 +202,7 @@ public class ObjectCreator implements ClientDataCreator {
 
             field = fieldsChecker.checkOwnerLocationName(fieldsAsker.askOwnerLocationName());
             if (field.hasError()) {
-                result.setError(field.getError());
+                result.setError(field.getError(), 1);
                 return result;
             } else {
                 ownerLocationName = (String) field.getResult();

@@ -10,6 +10,7 @@ import wrappers.Result;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Map;
+import java.util.Vector;
 
 public interface Collection {
 
@@ -48,6 +49,9 @@ public interface Collection {
     void setMessenger(Messenger messenger);
 
     void updateCollection();
+
+   Vector<Vector<String>> updateRequest();
+
 
 }
 

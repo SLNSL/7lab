@@ -23,11 +23,11 @@ public class ServerReader {
             String command = scanner.nextLine().trim();
             if (command.equals("save")) {
                 Command saveCommand = new SaveCommandServ(collection);
-                Result<String> result = saveCommand.execute(0, null, null, 0);
+                Result<Object> result = saveCommand.execute(0, null, null, 0);
                 if (result.hasError()) {
                     logger.error(result.getError());
                 } else {
-                    logger.info(result.getResult());
+                    logger.info(result.getResult().toString());
                 }
             }
 

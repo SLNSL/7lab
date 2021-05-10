@@ -10,5 +10,5 @@ import java.util.HashMap;
 import java.util.Map;
 
 public interface Creator {
-    Map<Integer, Product> createCollection(Map<Integer, Product> products, Gson gson, ServerDataChecker fieldsChecker, Messenger messenger);
+    Map<Integer, Product> createCollection(Map<Integer, Product> products, Gson gson, ServerDataChecker fieldsChecker, Messenger messenger, DataBase dataBase);
 }

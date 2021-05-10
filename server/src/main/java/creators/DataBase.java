@@ -41,8 +41,8 @@ public class DataBase {
 
     }
 
-    public Result<String> signUpUser(String login, String password, String language){
-        Result<String> result = new FieldResult<>();
+    public synchronized Result<Object> signUpUser(String login, String password, String language){
+        Result<Object> result = new FieldResult<>();
 
         try {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS;");
@@ -52,7 +52,7 @@ public class DataBase {
                 if (login.equals(loginFromDB)) break;
             }
             if (login.equals(loginFromDB)){
-                result.setError(new Translator().getAvailableLanguage(language).loginIsExist());
+                result.setError(new Translator().getAvailableLanguage(language).loginIsExist(), 1);
                 return result;
             }
 
@@ -72,13 +72,13 @@ public class DataBase {
             return result;
 
         } catch (NoSuchAlgorithmException | SQLException e){
-            result.setError(e.getMessage());
+            result.setError(e.getMessage(), 1);
             return result;
         }
     }
 
-    public Result<String> signInUser(String login, String password, String language){
-        Result<String> result = new FieldResult<>();
+    public synchronized Result<Object> signInUser(String login, String password, String language){
+        Result<Object> result = new FieldResult<>();
         try {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS;");
 
@@ -91,7 +91,7 @@ public class DataBase {
             }
 
             if (!login.equals(loginFromDB)) {
-                result.setError(Translator.getAvailableLanguage(language).incorrectLogin());
+                result.setError(Translator.getAvailableLanguage(language).incorrectLogin(), 1);
                 return result;
             }
 
@@ -101,7 +101,7 @@ public class DataBase {
             byte[] digest = messageDigest.digest(passwordData);
 
             if (!Arrays.equals(passwordFromDB, digest)) {
-                result.setError(new Translator().getAvailableLanguage(language).incorrectPassword());
+                result.setError(new Translator().getAvailableLanguage(language).incorrectPassword(), 1);
                 return result;
             }
             PreparedStatement updateStatement = connection.prepareStatement(
@@ -123,7 +123,7 @@ public class DataBase {
         return null;
     }
 
-    public Messenger getUserMessenger(String login){
+    public synchronized Messenger getUserMessenger(String login){
         try {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM USERS;");
             String loginFromDB = "";
@@ -132,7 +132,6 @@ public class DataBase {
             while (resultSet.next()) {
                 loginFromDB = resultSet.getString("login");
                 languageFromDB = resultSet.getString("language");
-//                System.out.println(login + "-" + loginFromDB);
                 if (login.equals(loginFromDB)) break;
             }
             return new Translator().getAvailableLanguage(languageFromDB);
@@ -144,7 +143,7 @@ public class DataBase {
         return null;
     }
 
-    public Map<Integer, Product> getData(){
+    public synchronized Map<Integer, Product> getData(){
         try {
             Map<Integer, Product> products = new LinkedHashMap<>();
             Integer key = null;
@@ -163,7 +162,6 @@ public class DataBase {
             String userName = ".";
 
             ResultSet productsSet = statement.executeQuery("SELECT * FROM products;");
-
             while (productsSet.next()) {
                 key = productsSet.getInt("key");
                 id = productsSet.getLong("id");
@@ -180,6 +178,7 @@ public class DataBase {
                 Product product = new Product(id, name, coordinates, creationDate, price, partNumber, manufactureCost, unitOfMeasure, owner, userName);
                 products.put(key, product);
             }
+            productsSet.close();
             return products;
 
         } catch (SQLException e){

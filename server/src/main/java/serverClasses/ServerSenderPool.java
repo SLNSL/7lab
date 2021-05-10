@@ -18,7 +18,7 @@ public class ServerSenderPool extends Thread{
 
     public ServerSenderPool(DatagramSocket socket) {
         this.socket = socket;
-        this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
+        this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(20);
     }
 
     @Override

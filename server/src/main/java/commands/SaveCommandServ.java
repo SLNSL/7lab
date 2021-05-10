@@ -28,7 +28,7 @@ public class SaveCommandServ implements Command {
      * @throws IncorrectNumberOfArgumentsException - было передано недопустимое количество аргументов
      */
     @Override
-    public Result<String> execute(int port, String login, Object... argument) throws IncorrectNumberOfArgumentsException {
+    public Result<Object> execute(int port, String login, Object... argument) throws IncorrectNumberOfArgumentsException {
         collectionManager.setMessenger(messenger);
         collectionManager.sort();
         try {

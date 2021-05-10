@@ -251,10 +251,63 @@ public class MessengerRu extends AbstractMessenger {
     }
 
 
-//    @Override
-//    public String getProductInfo(Product product, CollectionManager collectionManager) throws IncorrectInputException {
-//        return super.getProductInfo(product, collectionManager);
-//    }
+
+    @Override
+    public String authorizationWord() {
+        return "Авторизация";
+    }
+
+    @Override
+    public String signInWord() {
+        return "Войти";
+    }
+
+    @Override
+    public String signUpWord() {
+        return "Зарегистрироваться";
+    }
+
+    @Override
+    public String enterWord() {
+        return "Ввод";
+    }
+
+
+    @Override
+    public String changeWord() {
+        return "Изменить";
+    }
+
+    @Override
+    public String deleteWord() {
+        return "Удалить";
+    }
+
+    @Override
+    public String doYouWantToChange() {
+        return "Вы хотите изменить значение ячейки?";
+    }
+
+    @Override
+    public String currentUserWord() {
+        return "Текущий пользователь: ";
+    }
+
+    @Override
+    public String changeLanguageWord() {
+        return "Изменить язык";
+    }
+
+    @Override
+    public String onFilterWord() {
+        return "Включить фильтрацию";
+    }
+
+    @Override
+    public String offFilterWord() {
+        return "Выключить фильтрацию";
+    }
+
 
     @Override
     public String getString() {
@@ -365,5 +418,9 @@ public class MessengerRu extends AbstractMessenger {
     public String askOwnerLocationName() {
         return "Введите поле owner.location.name:";
     }
+
+
+
+
 
 }

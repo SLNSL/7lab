@@ -13,7 +13,8 @@ public class ExecuteScriptCommandServ implements Command {
     }
 
     @Override
-    public Result<String> execute(int port, String login, Object... args) throws IncorrectNumberOfArgumentsException {
+    public Result<Object> execute(int port, String login, Object... args) throws IncorrectNumberOfArgumentsException {
+
         return new FieldResult<>(messenger.commandIsFinished("execute_script " + (String) args[0]));
     }
 

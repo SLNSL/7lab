@@ -35,13 +35,13 @@ public class FieldChecker implements ClientDataChecker {
      * @return - key
      */
     @Override
-    public Result<Integer> checkKey(String string) {
+    public Result<Object> checkKey(String string) {
         Integer key;
-        Result<Integer> result = new FieldResult<>();
+        Result<Object> result = new FieldResult<>();
         try {
             key = Integer.parseInt(String.valueOf(string));
         } catch (NumberFormatException e) {
-            result.setError(messenger.generateIncorrectFieldInputMessage("key", messenger.mustBeType("Integer")));
+            result.setError(messenger.generateIncorrectFieldInputMessage("key", messenger.mustBeType("Integer")), 1);
             return result;
         }
         result.setResult(Integer.parseInt(String.valueOf(key)));
@@ -59,7 +59,7 @@ public class FieldChecker implements ClientDataChecker {
     public Result<Object> checkName(String string) {
         Result<Object> result = new FieldResult<>();
         if (string == null || String.valueOf(string).isEmpty()) {
-            result.setError(messenger.generateIncorrectFieldInputMessage("name", messenger.mustBeType("String"), messenger.cantBeEmpty(), messenger.cantBe("null")));
+            result.setError(messenger.generateIncorrectFieldInputMessage("name", messenger.mustBeType("String"), messenger.cantBeEmpty(), messenger.cantBe("null")), 1);
             return result;
         }
         result.setResult(string);
@@ -74,13 +74,13 @@ public class FieldChecker implements ClientDataChecker {
         try {
             id = Long.parseLong(String.valueOf(string));
         } catch (NumberFormatException e) {
-            result.setError(messenger.generateIncorrectFieldInputMessage("id", messenger.mustBeType("Long"), messenger.mustBe("> 0"), messenger.mustBeUnique()));
+            result.setError(messenger.generateIncorrectFieldInputMessage("id", messenger.mustBeType("Long"), messenger.mustBe("> 0"), messenger.mustBeUnique()), 1);
             return result;
         }
 
         if (id <= 0) {
             mapOfId.remove(id);
-            result.setError(messenger.generateIncorrectFieldInputMessage("id", messenger.mustBeType("Long"), messenger.mustBe("> 0"), messenger.mustBeUnique()));
+            result.setError(messenger.generateIncorrectFieldInputMessage("id", messenger.mustBeType("Long"), messenger.mustBe("> 0"), messenger.mustBeUnique()), 1);
             return result;
         }
 
@@ -98,7 +98,7 @@ public class FieldChecker implements ClientDataChecker {
     public Result<Object> checkCoordinates(Coordinates coordinates) {
         Result<Object> result = new FieldResult<>();
         if (coordinates == null) {
-            result.setError(messenger.generateIncorrectFieldInputMessage("coordinates", messenger.mustBeType("Coordinates"), messenger.cantBe("null")));
+            result.setError(messenger.generateIncorrectFieldInputMessage("coordinates", messenger.mustBeType("Coordinates"), messenger.cantBe("null")), 1);
             return result;
         }
         result.setResult(coordinates);
@@ -118,12 +118,12 @@ public class FieldChecker implements ClientDataChecker {
         try {
             x = Long.valueOf(String.valueOf(string));
         } catch (NumberFormatException e) {
-            result.setError(messenger.generateIncorrectFieldInputMessage("coordinates.x", messenger.mustBeType("Long"), messenger.cantBe("null")));
+            result.setError(messenger.generateIncorrectFieldInputMessage("coordinates.x", messenger.mustBeType("Long"), messenger.cantBe("null")), 1);
             return result;
         }
 
         if (x == null) {
-            result.setError(messenger.generateIncorrectFieldInputMessage("coordinates.x", messenger.mustBeType("Long"), messenger.cantBe("null")));
+            result.setError(messenger.generateIncorrectFieldInputMessage("coordinates.x", messenger.mustBeType("Long"), messenger.cantBe("null")), 1);
             return result;
         }
         result.setResult(x);
@@ -143,14 +143,14 @@ public class FieldChecker implements ClientDataChecker {
         try {
             y = Double.valueOf(String.valueOf(string));
         } catch (NumberFormatException e) {
-            result.setError(messenger.generateIncorrectFieldInputMessage("coordinates.y", messenger.mustBeType("Double"), messenger.cantBe("null")));
+            result.setError(messenger.generateIncorrectFieldInputMessage("coordinates.y", messenger.mustBeType("Double"), messenger.cantBe("null")),1);
             return result;
         }
 
         if (y == null) {
             result.setError(
                     messenger.generateIncorrectFieldInputMessage("coordinates.y", messenger.mustBeType("Double"),
-                            messenger.cantBe("null")));
+                            messenger.cantBe("null")), 1);
             return result;
         }
         result.setResult(y);
@@ -167,13 +167,13 @@ public class FieldChecker implements ClientDataChecker {
     public Result<Object> checkCreationDate(LocalDateTime creationDate) {
         Result<Object> result = new FieldResult<>();
         if (creationDate == null) {
-            result.setError(messenger.generateIncorrectFieldInputMessage("creationDate", messenger.mustBeType("LocalDateTime"), messenger.cantBe("null")));
+            result.setError(messenger.generateIncorrectFieldInputMessage("creationDate", messenger.mustBeType("LocalDateTime"), messenger.cantBe("null")), 1);
             return result;
         }
         try {
             creationDate.getDayOfMonth();
         } catch (NullPointerException e) {
-            result.setError(messenger.generateIncorrectFieldInputMessage("creationDate", messenger.mustBeType("LocalDateTime"), messenger.cantBe("null")));
+            result.setError(messenger.generateIncorrectFieldInputMessage("creationDate", messenger.mustBeType("LocalDateTime"), messenger.cantBe("null")), 1);
             return result;
         }
         result.setResult(creationDate);
@@ -195,14 +195,14 @@ public class FieldChecker implements ClientDataChecker {
         } catch (NumberFormatException e) {
             result.setError(
                     messenger.generateIncorrectFieldInputMessage("price", messenger.mustBeType("double"),
-                            messenger.mustBe("> 0")));
+                            messenger.mustBe("> 0")), 1);
             return result;
         }
 
         if (price <= 0) {
             result.setError(
                     messenger.generateIncorrectFieldInputMessage("price", messenger.mustBeType("double"),
-                            messenger.mustBe("> 0")));
+                            messenger.mustBe("> 0")), 1);
             return result;
         }
         result.setResult(price);
@@ -221,7 +221,7 @@ public class FieldChecker implements ClientDataChecker {
         if (string == "null") {
             result.setError(
                     messenger.generateIncorrectFieldInputMessage("partNumber", messenger.mustBeType("String"),
-                            messenger.cantBe("null")));
+                            messenger.cantBe("null")), 1);
             return result;
         }
         result.setResult(string);
@@ -242,7 +242,7 @@ public class FieldChecker implements ClientDataChecker {
             manufactureCost = Double.parseDouble(String.valueOf(string));
         } catch (NumberFormatException | NullPointerException e) {
             result.setError(
-                    messenger.generateIncorrectFieldInputMessage("manufactureCost", messenger.mustBeType("double")));
+                    messenger.generateIncorrectFieldInputMessage("manufactureCost", messenger.mustBeType("double")), 1);
             return result;
         }
         result.setResult(manufactureCost);
@@ -262,7 +262,7 @@ public class FieldChecker implements ClientDataChecker {
         if (string == null) {
             result.setError(
                     messenger.generateIncorrectFieldInputMessage("unitOfMeasure", messenger.mustBeType("UnitOfMeasure"),
-                            messenger.cantBe("null")));
+                            messenger.cantBe("null")), 1);
             return result;
         }
         try {
@@ -270,7 +270,7 @@ public class FieldChecker implements ClientDataChecker {
         } catch (IllegalArgumentException e) {
             result.setError(
                     messenger.generateIncorrectFieldInputMessage("unitOfMeasure", messenger.mustBeType("UnitOfMeasure"),
-                            messenger.cantBe("null")));
+                            messenger.cantBe("null")), 1);
             return result;
         }
         result.setResult(unitOfMeasure);
@@ -294,7 +294,7 @@ public class FieldChecker implements ClientDataChecker {
         if (string == null || String.valueOf(string).isEmpty()) {
             result.setError(
                     messenger.generateIncorrectFieldInputMessage("owner.name", messenger.mustBeType("String"),
-                            messenger.cantBe("null")));
+                            messenger.cantBe("null")), 1);
         }
         result.setResult(string);
         return result;
@@ -330,7 +330,7 @@ public class FieldChecker implements ClientDataChecker {
             color = Color.valueOf(String.valueOf(string).toUpperCase());
         } catch (IllegalArgumentException e) {
             result.setError(
-                    messenger.generateIncorrectFieldInputMessage("owner.hairColor", messenger.mustBeType("Color")));
+                    messenger.generateIncorrectFieldInputMessage("owner.hairColor", messenger.mustBeType("Color")), 1);
             return result;
         } catch (NullPointerException e) {
             result.setResult(null);
@@ -355,7 +355,7 @@ public class FieldChecker implements ClientDataChecker {
         } catch (NumberFormatException e) {
             result.setError(
                     messenger.generateIncorrectFieldInputMessage("owner.location.x", messenger.mustBeType("long"),
-                            messenger.mustBeUnique()));
+                            messenger.mustBeUnique()), 1);
             return result;
         }
         result.setResult(x);
@@ -377,7 +377,7 @@ public class FieldChecker implements ClientDataChecker {
         } catch (NumberFormatException e) {
             result.setError(
                     messenger.generateIncorrectFieldInputMessage("owner.location.y", messenger.mustBeType("double"),
-                            messenger.mustBeUnique()));
+                            messenger.mustBeUnique()), 1);
             return result;
         }
         result.setResult(y);
@@ -399,7 +399,7 @@ public class FieldChecker implements ClientDataChecker {
         } catch (NumberFormatException | NullPointerException e) {
             result.setError(
                     messenger.generateIncorrectFieldInputMessage("owner.location.z", messenger.mustBeType("Float"),
-                            messenger.cantBe("null")));
+                            messenger.cantBe("null")), 1);
             return result;
         }
         result.setResult(z);
@@ -418,7 +418,7 @@ public class FieldChecker implements ClientDataChecker {
         if (string == null) {
             result.setError(
                     messenger.generateIncorrectFieldInputMessage("owner.location.name", messenger.mustBeType("String"),
-                            messenger.cantBe("null")));
+                            messenger.cantBe("null")), 1);
             return result;
         }
         result.setResult(string);

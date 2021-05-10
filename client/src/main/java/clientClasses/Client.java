@@ -4,15 +4,16 @@ import askers.ClientDataAsker;
 import askers.FieldAsker;
 import checkers.ClientDataChecker;
 import checkers.FieldChecker;
-import clientInterfaces.CommandReader;
-import clientInterfaces.LanguageClientInterface;
 import clientInterfaces.AbstractClientReceiver;
 import clientInterfaces.ClientSenderInterface;
 import commandManager.ClientCommandManager;
 import commandManager.CommandManager;
+
+import frames.*;
 import messenger.Messenger;
 import printer.Printable;
 import printer.Printer;
+import scanners.MyScanner;
 
 
 import java.io.IOException;
@@ -20,11 +21,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.*;
 import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
 import java.nio.channels.DatagramChannel;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 
 
 public class Client {
@@ -40,50 +37,58 @@ public class Client {
 
     private ByteBuffer buf = ByteBuffer.allocate(8192);
 
+    private ClientSenderInterface clientSender;
+    private MyScanner scanner;
+    private Printable printer;
+    private AbstractClientReceiver clientReceiver;
+    private ClientDataChecker clientDataChecker;
+
+    private MainFrame mainFrame;
+
 
     public static void main(String[] args) {
         disableAccessWarnings();
-        Printable printer = new Printer();
 
 
         Client client = new Client();
 
-        client.run();
+        client.create();
     }
 
 
-    public void run() {
-        Printable printer = new Printer();
-        Scanner scanner = new Scanner(System.in);
-        ClientSenderInterface clientSender = new ClientSender(address, datagramChannel, printer, messenger);
-        AbstractClientReceiver clientReceiver = new ClientReceiver(datagramChannel, address, printer, messenger, this);
+    public void create() {
+        this.clientAuthorization = new ClientAccount(this);
+        this.scanner = new MyScanner();
+        mainFrame = new MainFrame(scanner, this);
+        this.printer = new Printer(mainFrame);
+        this.clientSender = new ClientSender(address, datagramChannel, printer, messenger);
+        this.clientReceiver = new ClientReceiver(datagramChannel, address, printer, messenger, this);
 
-        LanguageClientInterface languageClient = new LanguageClient(clientSender, clientReceiver, printer);
-        languageClient.setScanner(scanner);
 
-
-        this.clientAuthorization = new ClientAccount();
         clientAuthorization.setLanguage(clientReceiver, clientSender, printer);
+
+
+    }
+
+    public void run() {
 
         this.messenger = clientAuthorization.getMessenger();
         clientReceiver.setMessenger(messenger);
+        clientSender.setMessenger(messenger);
 
         if (messenger != null) {
-
-            ClientDataChecker clientDataChecker = new FieldChecker(messenger);
+            clientDataChecker = new FieldChecker(messenger);
             ClientDataAsker clientDataAsker = new FieldAsker(scanner, printer, messenger);
 
             CommandManager commandInterpreter = new ClientCommandManager(messenger, clientDataChecker, clientDataAsker, printer);
-            CommandReader clientReader = new ClientCommandReader(clientSender, clientReceiver, commandInterpreter, printer, scanner, clientDataAsker, messenger);
+            ClientCommandReader clientReader = new ClientCommandReader(this, clientSender, clientReceiver, commandInterpreter, printer, scanner, clientDataAsker, messenger);
             clientDataAsker.setScanner(scanner);
+            mainFrame.run(getLogin(), messenger);
 
             clientReceiver.start();
-
-            clientReader.read(clientAuthorization);
+            clientReader.start();
 
         }
-
-
     }
 
 
@@ -94,40 +99,47 @@ public class Client {
 
 
         } catch (SocketException e) {
-            System.out.println("CLIENT SOCKET EX");
+            printer.printlnError(e.getMessage());
         } catch (IOException e) {
-            System.out.println("CLIENT IO");
+            printer.printlnError(e.getMessage());
         }
 
+
     }
 
-    public String sendEcho(String msg) throws SocketException, IOException {
-        buf.put(msg.getBytes());
-        buf.flip();
 
-        DatagramChannel sendPacket = DatagramChannel.open();
-        sendPacket.connect(address);
 
-        sendPacket.send(buf, address);
-        buf.clear();
-
-        sendPacket.receive(buf);
-        buf.flip();
-
-        Charset latin = StandardCharsets.UTF_8;
-        CharBuffer latinBuffer = latin.decode(buf);
-        String result = new String(latinBuffer.array());
-
-        String received = result;
-        return received;
-    }
-
-    public ClientAccount getClientAuthorization() {
-        return clientAuthorization;
-    }
-
-    public void setLogin(String login){
+    public void setLogin(String login) {
         clientAuthorization.setLogin(login);
+    }
+
+    public String getLogin(){
+        return clientAuthorization.getLogin();
+    }
+
+    public Messenger getMessenger(){
+        return messenger;
+    }
+
+    public ClientSenderInterface getClientSender() {
+        return clientSender;
+    }
+
+    public ClientDataChecker getClientDataChecker() {
+        return clientDataChecker;
+    }
+
+    public MainFrame getMainFrame() {
+        return mainFrame;
+    }
+
+    public synchronized  AbstractClientReceiver getClientReceiver() {
+        return clientReceiver;
+    }
+
+    public void setMessenger(Messenger messenger){
+        this.messenger = messenger;
+        this.clientAuthorization.setMessenger(messenger);
     }
 
     @SuppressWarnings("unchecked")

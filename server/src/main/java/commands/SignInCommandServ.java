@@ -19,12 +19,12 @@ public class SignInCommandServ implements Command{
     }
 
     @Override
-    public Result<String> execute(int port, String login, Object... args) throws IncorrectNumberOfArgumentsException {
+    public Result<Object> execute(int port, String login, Object... args) throws IncorrectNumberOfArgumentsException {
         String password = args[1].toString();
 
         this.messenger = messenger;
 
-        Result<String> signInResult = dataBase.signInUser(login, password, messenger.getString());
+        Result<Object> signInResult = dataBase.signInUser(login, password, messenger.getString());
         if (signInResult.hasError()){
             return signInResult;
         }

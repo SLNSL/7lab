@@ -2,6 +2,7 @@ package clientClasses;
 
 import clientInterfaces.ClientSenderInterface;
 import messenger.Messenger;
+import messenger.MessengerEng;
 import printer.Printable;
 import wrappers.Packet;
 
@@ -17,7 +18,7 @@ public class ClientSender implements ClientSenderInterface {
     private SocketAddress socketAddress;
     private DatagramChannel datagramChannel;
     private Printable printer;
-    private Messenger messenger;
+    private Messenger messenger = new MessengerEng();
 
 
     public ClientSender(SocketAddress socketAddress, DatagramChannel datagramChannel, Printable printer, Messenger messenger){
@@ -29,6 +30,7 @@ public class ClientSender implements ClientSenderInterface {
 
 
     public void send(Packet commandPacket){
+
         try {
             buf.clear();
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -38,16 +40,18 @@ public class ClientSender implements ClientSenderInterface {
             buf.flip();
             objectOutputStream.flush();
             byteArrayOutputStream.flush();
-
-//            System.out.println("ОТПРАВИЛ ПАКЕТ");
             datagramChannel.send(buf, socketAddress);
             objectOutputStream.close();
             byteArrayOutputStream.close();
 
 
         } catch (IOException e){
-            System.out.println(messenger.generateUnexpectedErrorMessage());
+            printer.printlnError(messenger.generateUnexpectedErrorMessage());
             e.printStackTrace();
         }
+    }
+
+    public void setMessenger(Messenger messenger) {
+        this.messenger = messenger;
     }
 }

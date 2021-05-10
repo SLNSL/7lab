@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  */
 public interface ClientDataChecker {
 
-    Result<Integer> checkKey(String string);
+    Result<Object> checkKey(String string);
 
     Result<Object> checkName(String string);
 

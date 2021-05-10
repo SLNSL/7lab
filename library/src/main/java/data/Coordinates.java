@@ -5,6 +5,7 @@ import java.util.Objects;
 
 
 public class Coordinates implements Serializable {
+    private static final long serialVersionUID = 1234567890L;
     private Long x; //Поле не может быть null
     private Double y; //Поле не может быть null
 

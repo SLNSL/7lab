@@ -264,6 +264,63 @@ public class MessengerEng extends AbstractMessenger {
     }
 
 
+
+    @Override
+    public String authorizationWord() {
+        return "Authorization";
+    }
+
+    @Override
+    public String signInWord() {
+        return "Sign In";
+    }
+
+    @Override
+    public String signUpWord() {
+        return "Sign Up";
+    }
+
+    @Override
+    public String enterWord() {
+        return "Enter";
+    }
+
+    @Override
+    public String changeWord() {
+        return "Change";
+    }
+
+    @Override
+    public String deleteWord() {
+        return "Delete";
+    }
+
+    @Override
+    public String doYouWantToChange() {
+        return "Do you want to change the cell?";
+    }
+
+    @Override
+    public String currentUserWord() {
+        return "Current user name: ";
+    }
+
+    @Override
+    public String changeLanguageWord() {
+        return "Change language";
+    }
+
+    @Override
+    public String onFilterWord() {
+        return "Enable filtering";
+    }
+
+    @Override
+    public String offFilterWord() {
+        return "Disable filtering";
+    }
+
+
 //    @Override
 //    public String getProductInfo(Product product, CollectionManager collectionManager) throws IncorrectInputException {
 //        return super.getProductInfo(product, collectionManager);

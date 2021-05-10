@@ -426,5 +426,26 @@ public interface Messenger {
 
     String sayHello(String person);
 
+    String authorizationWord();
+
+    String signInWord();
+
+    String signUpWord();
+
+    String enterWord();
+
+    String changeWord();
+
+    String deleteWord();
+
+    String doYouWantToChange();
+
+    String currentUserWord();
+
+    String changeLanguageWord();
+
+    String onFilterWord();
+
+    String offFilterWord();
 
 }

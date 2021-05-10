@@ -79,13 +79,13 @@ public class CommandInterpreter extends AbstractInterpreter {
 
             Object[] args = commandPacket.getArguments();
 
-            String result;
+            Object result;
 
 
             try {
-                Result<String> executeResult = command.execute(datagramPacket.getPort(), login, args);
+                Result<Object> executeResult = command.execute(datagramPacket.getPort(), login, args);
 
-                if (executeResult.hasError() && !stringCommand.equals("sign_in") && !stringCommand.equals("sign_out")) {
+                if (executeResult.hasError() && executeResult.getErrorType() == 2 && !stringCommand.equals("sign_in") && !stringCommand.equals("sign_out")) {
                     answer = new AnswerPacket(executeResult.getError(), 2);
                     sendAnswer(answer);
                 } else {
@@ -93,7 +93,7 @@ public class CommandInterpreter extends AbstractInterpreter {
 
                     switch (stringCommand){
                         case "exit":
-                            answer = new AnswerPacket(result, 2);
+                            answer = new AnswerPacket(result.toString(), 2);
                             sendAnswer(answer);
                             break;
                         case "sign_in":
@@ -102,8 +102,14 @@ public class CommandInterpreter extends AbstractInterpreter {
                             answer.setAnswerType(AnswerType.AUTHORIZATION);
                             sendAnswer(answer);
                             break;
+                        case "update_data":
+                            answer = new AnswerPacket("data_request");
+                            answer.setObject(result);
+                            answer.setAnswerType(AnswerType.DATA);
+                            sendAnswer(answer);
+                            break;
                         default:
-                            if (!executeResult.hasError()) answer = new AnswerPacket(result); else answer = new AnswerPacket(executeResult.getError(), 2);
+                            if (!executeResult.hasError()) answer = new AnswerPacket(result); else answer = new AnswerPacket(executeResult.getError(), executeResult.getErrorType());
                             if (stringCommand.equals("set_language")) answer.setObject(Translator.getAvailableLanguage(args[0].toString()));
                             sendAnswer(answer);
                             break;
